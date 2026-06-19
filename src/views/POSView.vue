@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useProducts } from '../composables/useProducts'
 import { useSales } from '../composables/useSales'
 
+const router = useRouter()
 const { products, fetchProducts } = useProducts()
 const { checkout } = useSales()
 
@@ -59,6 +61,14 @@ function decrementItem(item) {
   if (item.quantity <= 0) cart.value = cart.value.filter((i) => i.product_id !== item.product_id)
 }
 
+function clearBasket() {
+  if (cart.value.length === 0) return
+  if (confirm('Clear the basket? This will remove all items.')) {
+    cart.value = []
+    message.value = ''
+  }
+}
+
 async function handleCheckout() {
   if (cart.value.length === 0) return
   processing.value = true
@@ -79,7 +89,15 @@ async function handleCheckout() {
 <template>
   <div class="min-h-screen bg-[#F7F5F2] pb-36">
     <div class="px-5 pt-6 pb-3">
-      <h1 class="text-2xl font-bold text-[#1F2024] mb-4">POS</h1>
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold text-[#1F2024]">POS</h1>
+        <router-link
+          to="/"
+          class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-lg"
+        >
+          🏠
+        </router-link>
+      </div>
       <input
         v-model="search"
         placeholder="Search product or SKU..."
@@ -107,8 +125,14 @@ async function handleCheckout() {
       </button>
     </div>
 
-    <!-- Cart sheet -->
     <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-[0_-8px_30px_rgba(0,0,0,0.08)] p-5">
+      <div v-if="cart.length > 0" class="flex justify-between items-center mb-3">
+        <span class="text-xs font-semibold text-[#8A8F98] uppercase tracking-wide">Basket</span>
+        <button @click="clearBasket" class="text-xs font-bold text-[#FF5630]">
+          Clear basket
+        </button>
+      </div>
+
       <div v-if="cart.length > 0" class="max-h-36 overflow-y-auto mb-3 space-y-3">
         <div v-for="item in cart" :key="item.product_id" class="flex justify-between items-center">
           <span class="text-sm font-medium text-[#1F2024] flex-1 truncate">{{ item.name }}</span>
