@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useProducts } from '../composables/useProducts'
+import BottomNav from '../components/BottomNav.vue'
 
 const { user, signOut } = useAuth()
 const { fetchLowStock } = useProducts()
@@ -85,5 +86,6 @@ const tiles = [
         </router-link>
       </div>
     </div>
+    <BottomNav />
   </div>
 </template>

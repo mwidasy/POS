@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { usePurchases } from '../composables/usePurchases'
 import { useProducts } from '../composables/useProducts'
 import RestockForm from '../components/RestockForm.vue'
+import BottomNav from '../components/BottomNav.vue'
 
 const { purchases, loading, error, fetchPurchases, recordPurchase } = usePurchases()
 const { products, fetchProducts } = useProducts()
@@ -54,5 +55,6 @@ async function handleSubmit(data) {
     <p v-if="!loading && purchases.length === 0" class="text-slate-500 text-sm text-center mt-8">
       No purchases recorded yet.
     </p>
+    <BottomNav />
   </div>
 </template>

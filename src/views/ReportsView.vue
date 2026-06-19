@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import { useReports } from '../composables/useReports'
+import BottomNav from '../components/BottomNav.vue'
 
 const { summary, topProducts, loading, fetchSummary, fetchTopProducts } = useReports()
 
@@ -62,5 +63,6 @@ watch(period, loadData)
         No sales in this period.
       </p>
     </div>
+    <BottomNav />
   </div>
 </template>

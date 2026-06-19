@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useProducts } from '../composables/useProducts'
 import ProductForm from '../components/ProductForm.vue'
+import BottomNav from '../components/BottomNav.vue'
 
 const { products, loading, error, fetchProducts, addProduct, updateProduct, deleteProduct } = useProducts()
 
@@ -84,5 +85,6 @@ async function handleDelete(id) {
     <p v-if="!loading && products.length === 0" class="text-slate-500 text-sm text-center mt-8">
       No products yet. Tap "+ Add" to get started.
     </p>
+    <BottomNav />
   </div>
 </template>
